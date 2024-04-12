@@ -1,22 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
 
 function App() {
+  const [animal, setAnimal] = useState();
+
+  const getAnimal = () => {
+    fetch("https://dog.ceo/api/breeds/image/random")
+      .then((response) => response.json())
+      .then((data) => setAnimal(data))
+      .catch((error) => console.error(error));
+  };
+
+  useEffect(() => {
+    getAnimal();
+  }, []);
+
   return (
     <div className="App">
+        <button type="primary" onClick={getAnimal}>Alterar imagem</button>
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <img src={animal?.message} className="App-logo" alt="logo" />
       </header>
     </div>
   );
